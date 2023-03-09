@@ -5,6 +5,7 @@ from os import system
 from sys import exit
 from collections import deque
 
+#----------- LECTURA DE ARCHIVO ----------------------------------
 def LeerArchivo():
     procesos = []
     with open("./procesos.txt", 'r') as f:
@@ -14,6 +15,58 @@ def LeerArchivo():
             procesos.append((proceso, int(ciclos), int(prioridad)))
     return procesos
 
+
+
+#------------------- INSERTAR NUEVOS PROCESOS -----------------------
+def AgregarProcesos(procesos):
+    system('cls')
+    nuevos_procesos = procesos
+    try:
+        n = str(input("Deseas agregar un nuevo Proceso? Y/N "))
+        if n == 'Y' or n == 'y':
+            system('cls')
+            try:
+                nombre = str(input("Ingresa Nombre: "))
+                ciclos = int(input("Ingresa Ciclos/Quantum: "))
+                prioridad = int(input("Ingresar Prioridad: "))
+                try:
+                    l = str(input("Quieres agregar el proceso al Inicio o al Final? I/F "))
+                    if l == 'I' or l == 'i':
+                        nuevos_procesos.insert(0, (nombre, ciclos, prioridad))
+                        return AgregarProcesos(nuevos_procesos)
+                    elif l == 'F' or l == 'f':
+                        nuevos_procesos.append((nombre, ciclos, prioridad))
+                        return AgregarProcesos(nuevos_procesos)
+                    else:
+                        print("Opcion Invalida.")
+                        input("\npresiona Enter para continuar...")
+                        AgregarProcesos(nuevos_procesos)
+
+                except ValueError:
+                    print("Dato invalido.")
+                    input("\npresiona Enter para continuar...")
+                    AgregarProcesos(nuevos_procesos)
+
+            except ValueError:
+                print("Dato invalido.")
+                input("\npresiona Enter para continuar...")
+                AgregarProcesos(nuevos_procesos)
+
+        elif n == 'N' or n == 'n':
+            return nuevos_procesos
+        else:
+            print("Opcion Invalida.")
+            input("\npresiona Enter para continuar...")
+            AgregarProcesos(nuevos_procesos)
+
+    except ValueError: 
+        print("Dato invalido.")
+        input("\npresiona Enter para continuar...")
+        AgregarProcesos(nuevos_procesos)  
+
+
+
+#------------- ALGORITMO ROUND ROBIN --------------------------------
 def RoundRobin(procesos, Q):
     system('cls')
     cola = deque(procesos)
@@ -31,6 +84,9 @@ def RoundRobin(procesos, Q):
     input("\npresiona Enter para continuar...")
     Menu()
 
+
+
+#------------------------- ALGORITMO SFJ ---------------------------------
 def SFJ(procesos):
     system('cls')
     cola = deque(sorted(procesos, key = lambda x: x[1]))
@@ -42,6 +98,9 @@ def SFJ(procesos):
     input("\npresiona Enter para continuar...")
     Menu()
 
+
+
+#-------------------- ALGORITMO FIFO ----------------------------------
 def FIFO(procesos):
     system('cls')
     cola = deque(procesos)
@@ -53,6 +112,9 @@ def FIFO(procesos):
     input("\npresiona Enter para continuar...")
     Menu()
 
+
+
+#--------------------- ALGORITMO DE PRIORIDADES ------------------------------
 def Prioridades(procesos):
     system('cls')
     cola = deque(sorted(procesos, key = lambda x: x[2]))
@@ -64,9 +126,18 @@ def Prioridades(procesos):
     input("\npresiona Enter para continuar...")
     Menu()    
 
+
+
+#---------------------MENU PRINCIPAL --------------------------------------
 def Menu(): 
     system('cls')
-    procesos = LeerArchivo()
+    archivo = LeerArchivo()
+    procesos = AgregarProcesos(archivo)
+   
+#   impresion solo para comprobacion de la lista de procesos final
+    for proceso in procesos:
+        print(proceso)
+
     try:
         m = int(input("""
         SELECCIONA UNA OPCION.
