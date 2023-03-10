@@ -53,7 +53,7 @@ def AgregarProcesos(procesos):
                 AgregarProcesos(nuevos_procesos)
 
         elif n == 'N' or n == 'n':
-            return nuevos_procesos
+            return Menu(nuevos_procesos)
         else:
             print("Opcion Invalida.")
             input("\npresiona Enter para continuar...")
@@ -82,7 +82,7 @@ def RoundRobin(procesos, Q):
             print(f"Proceso {nombre} terminado.\n")
 
     input("\npresiona Enter para continuar...")
-    Menu()
+    Menu(procesos)
 
 
 
@@ -96,7 +96,7 @@ def SFJ(procesos):
         print(f"Proceso ejecutado: {nombre} con {tamaño} ciclos.\n")
 
     input("\npresiona Enter para continuar...")
-    Menu()
+    Menu(procesos)
 
 
 
@@ -110,7 +110,7 @@ def FIFO(procesos):
         print(f"Proceso ejecutado: {nombre}.\n")
 
     input("\npresiona Enter para continuar...")
-    Menu()
+    Menu(procesos)
 
 
 
@@ -124,20 +124,14 @@ def Prioridades(procesos):
         print(f"Proceso Ejecutado: {nombre}, con prioridad {prioridad}.\n")
 
     input("\npresiona Enter para continuar...")
-    Menu()    
+    Menu(procesos)    
 
 
 
 #---------------------MENU PRINCIPAL --------------------------------------
-def Menu(): 
+def Menu(procesos): 
     system('cls')
-    archivo = LeerArchivo()
-    procesos = AgregarProcesos(archivo)
-   
-#   impresion solo para comprobacion de la lista de procesos final
-    for proceso in procesos:
-        print(proceso)
-
+  
     try:
         m = int(input("""
         SELECCIONA UNA OPCION.
@@ -146,6 +140,7 @@ def Menu():
         2.- SJF
         3.- FIFO
         4.- PRIORIDADES
+        5.- AGREGAR PROCESOS
         0.- SALIR
         
         # """))
@@ -159,6 +154,8 @@ def Menu():
             FIFO(procesos)
         elif m == 4: 
             Prioridades(procesos)
+        elif m == 5:
+            AgregarProcesos(procesos)
         elif m == 0:
             system('cls')
             exit();
@@ -174,4 +171,5 @@ def Menu():
 
 
 if __name__ == "__main__":
-    Menu()
+    archivo = LeerArchivo()
+    Menu(archivo)
